@@ -24,7 +24,6 @@ export const TransformationSlider: React.FC = () => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = clientX - rect.left;
-    // Allow 0% to 100% full-width sliding
     const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
     setSliderPosition(percentage);
   }, []);
@@ -55,17 +54,19 @@ export const TransformationSlider: React.FC = () => {
       window.addEventListener("mouseup", handleMouseUp);
       window.addEventListener("touchmove", handleTouchMove, { passive: false });
       window.addEventListener("touchend", handleMouseUp);
+      window.addEventListener("touchcancel", handleMouseUp);
     }
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
       window.removeEventListener("touchmove", handleTouchMove);
       window.removeEventListener("touchend", handleMouseUp);
+      window.removeEventListener("touchcancel", handleMouseUp);
     };
   }, [isDragging, handleMouseMove, handleMouseUp, handleTouchMove]);
 
   return (
-    <section id="transformation-slider" className="py-28 px-4 sm:px-6 max-w-7xl mx-auto z-10 relative">
+    <section id="transformation-slider" className="py-20 sm:py-28 px-4 sm:px-6 max-w-7xl mx-auto z-10 relative">
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 border-b border-black/10 pb-8 gap-6">
         <div>
@@ -86,14 +87,10 @@ export const TransformationSlider: React.FC = () => {
         </p>
       </div>
 
-      {/* Main Interactive Split Card Container */}
+      {/* Main Interactive Split Card Container (Preserves vertical page scrolling via touch-pan-y) */}
       <div
         ref={containerRef}
-        className="relative w-full h-[620px] sm:h-[560px] rounded-3xl overflow-hidden border border-black/10 bg-white shadow-xl select-none cursor-ew-resize touch-none"
-        onMouseDown={() => setIsDragging(true)}
-        onTouchStart={() => setIsDragging(true)}
-        onPointerDown={() => setIsDragging(true)}
-        onPointerUp={() => setIsDragging(false)}
+        className="relative w-full h-[620px] sm:h-[560px] rounded-3xl overflow-hidden border border-black/10 bg-white shadow-xl select-none touch-pan-y"
       >
         {/* ======================================================== */}
         {/* RIGHT LAYER: IXORIEE DIGITAL CLOUD SUITE (Studio White)  */}
@@ -302,15 +299,31 @@ export const TransformationSlider: React.FC = () => {
           </div>
         </div>
 
-        {/* ======================================================== */}
-        {/* DRAGGABLE DIVIDER HANDLE & KNOB                         */}
-        {/* ======================================================== */}
+        {/* ========================================================================= */}
+        {/* DRAGGABLE DIVIDER HANDLE & KNOB (Active touch listener only on the handle) */}
+        {/* ========================================================================= */}
         <div
-          className="absolute inset-y-0 w-0.5 bg-[#1C1D20] z-30 pointer-events-none"
+          className="absolute inset-y-0 w-8 -ml-4 z-30 cursor-ew-resize touch-none flex items-center justify-center group"
           style={{ left: `${sliderPosition}%` }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+            setIsDragging(true);
+          }}
+          onTouchStart={(e) => {
+            e.stopPropagation();
+            setIsDragging(true);
+          }}
+          onPointerDown={(e) => {
+            e.stopPropagation();
+            setIsDragging(true);
+          }}
         >
-          <div className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-[#1C1D20] text-white flex items-center justify-center shadow-lg cursor-ew-resize pointer-events-auto hover:scale-110 active:scale-95 transition-transform">
-            <ArrowLeftRight className="w-4 h-4" />
+          {/* Vertical Divider Hairline */}
+          <div className="w-0.5 h-full bg-[#1C1D20] shadow-md group-hover:w-1 transition-all" />
+
+          {/* Draggable Knob (Enlarged 48x48 for effortless mobile thumb touch) */}
+          <div className="absolute top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-[#1C1D20] text-white flex items-center justify-center shadow-2xl border-2 border-white pointer-events-auto hover:scale-110 active:scale-95 transition-transform">
+            <ArrowLeftRight className="w-4 h-4 text-white" />
           </div>
         </div>
       </div>
