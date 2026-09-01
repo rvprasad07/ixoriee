@@ -24,7 +24,8 @@ export const TransformationSlider: React.FC = () => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = clientX - rect.left;
-    const percentage = Math.max(5, Math.min(95, (x / rect.width) * 100));
+    // Allow 0% to 100% full-width sliding
+    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
     setSliderPosition(percentage);
   }, []);
 
@@ -223,17 +224,19 @@ export const TransformationSlider: React.FC = () => {
         </div>
 
         {/* ======================================================== */}
-        {/* LEFT LAYER: THE MANUAL PROBLEM (Warm Physical Paper Ledger) */}
+        {/* LEFT LAYER: THE MANUAL PROBLEM (Full Clean Clip-Path)     */}
         {/* ======================================================== */}
         <div
-          className="absolute inset-y-0 left-0 bg-[#ECE5D8] border-r border-[#C4B7A6] p-6 sm:p-10 flex flex-col justify-between overflow-hidden shadow-xl"
-          style={{ width: `${sliderPosition}%` }}
+          className="absolute inset-0 bg-[#ECE5D8] border-r border-[#C4B7A6] p-6 sm:p-10 flex flex-col justify-between overflow-hidden shadow-xl"
+          style={{
+            clipPath: `polygon(0 0, ${sliderPosition}% 0, ${sliderPosition}% 100%, 0 100%)`,
+          }}
         >
           {/* Subtle paper grain texture */}
           <div className="absolute inset-0 bg-[radial-gradient(#b8a994_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none" />
 
           {/* Top Status Bar */}
-          <div className="relative z-10 flex items-center justify-between border-b border-[#C4B7A6] pb-4 min-w-[340px]">
+          <div className="relative z-10 flex items-center justify-between border-b border-[#C4B7A6] pb-4">
             <div className="flex items-center gap-3">
               <div className="w-2.5 h-2.5 rounded-full bg-red-600 animate-ping" />
               <span className="font-mono text-xs sm:text-sm font-bold tracking-wider text-red-700">
@@ -246,7 +249,7 @@ export const TransformationSlider: React.FC = () => {
           </div>
 
           {/* Paper Ledger Content */}
-          <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-4 my-auto min-w-[500px]">
+          <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-4 my-auto max-w-3xl">
             <div className="bg-[#DFD5C4] border border-[#BDB09E] rounded-xl p-4 shadow-inner">
               <div className="flex items-center justify-between text-amber-950 font-mono text-xs mb-3">
                 <span className="flex items-center gap-1.5 font-bold">
@@ -293,7 +296,7 @@ export const TransformationSlider: React.FC = () => {
           </div>
 
           {/* Bottom Alert */}
-          <div className="relative z-10 flex items-center justify-between text-xs font-mono text-amber-950 pt-2 border-t border-[#C4B7A6] min-w-[340px]">
+          <div className="relative z-10 flex items-center justify-between text-xs font-mono text-amber-950 pt-2 border-t border-[#C4B7A6]">
             <span>RISK: HUMAN ERROR &amp; SCALING CEILING</span>
             <span className="text-red-700 font-bold">CRITICAL BOTTLENECK</span>
           </div>

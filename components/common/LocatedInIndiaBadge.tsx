@@ -19,7 +19,7 @@ export const LocatedInIndiaBadge: React.FC = () => {
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="fixed bottom-8 left-0 z-40 select-none group"
+      className="absolute bottom-8 left-0 z-30 select-none group pointer-events-auto"
     >
       <div className="flex items-center bg-[#1C1D20] text-white pl-5 pr-2 py-2 rounded-r-full border border-white/15 border-l-0 shadow-[0_10px_35px_rgba(0,0,0,0.4)] backdrop-blur-md transition-all duration-300 group-hover:pl-6 group-hover:shadow-[0_15px_45px_rgba(0,0,0,0.6)]">
         {/* Editorial Text */}

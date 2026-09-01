@@ -3,6 +3,7 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { MagneticWrapper } from "../common/MagneticWrapper";
+import { LocatedInIndiaBadge } from "../common/LocatedInIndiaBadge";
 import { ArrowDown, ArrowRight, ShieldCheck, Zap, Cpu, Sparkles } from "lucide-react";
 
 export const HeroSection: React.FC = () => {
@@ -36,6 +37,9 @@ export const HeroSection: React.FC = () => {
       ref={containerRef}
       className="relative min-h-[105vh] sm:min-h-[115vh] flex flex-col justify-start items-center pt-32 sm:pt-40 pb-20 px-4 sm:px-6 max-w-7xl mx-auto select-none overflow-hidden"
     >
+      {/* Dennis Snellenberg Floating "Located in India" Globe Widget - Scoped to Hero Only */}
+      <LocatedInIndiaBadge />
+
       {/* Left Edge: Rezo Zero Style Vertical "Scroll" Indicator */}
       <div className="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 flex-col items-center gap-3 z-30 pointer-events-none text-neutral-400 font-mono text-[10px] uppercase tracking-widest">
         <span className="w-1.5 h-1.5 rounded-full bg-[#1C1D20]" />
@@ -135,16 +139,16 @@ export const HeroSection: React.FC = () => {
       </div>
 
       {/* ======================================================== */}
-      {/* FOREGROUND: REZO ZERO GIANT TYPOGRAPHY LAYER             */}
+      {/* FOREGROUND: REZO ZERO SHORTENED 3-LINE TYPOGRAPHY LAYER   */}
       {/* ======================================================== */}
-      <div className="max-w-6xl text-left sm:text-center px-2 relative z-20 pointer-events-auto">
+      <div className="max-w-5xl text-left sm:text-center px-2 relative z-20 pointer-events-auto">
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: [0.33, 1, 0.68, 1] }}
           className="font-sans text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.25rem] font-medium tracking-[-0.038em] text-[#1C1D20] leading-[1.04]"
         >
-          Ixoriee is a creative digital studio that builds impactful web systems &amp; automated infrastructure for modern businesses.
+          Ixoriee is a creative digital studio building impactful web systems &amp; automated infrastructure.
         </motion.h1>
       </div>
 

@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { useLenis } from "@/hooks/useLenis";
 import { useThemeShift } from "@/hooks/useThemeShift";
 import { DynamicIslandNav } from "@/components/common/DynamicIslandNav";
-import { LocatedInIndiaBadge } from "@/components/common/LocatedInIndiaBadge";
 import { HeroSection } from "@/components/home/HeroSection";
 import { TransformationSlider } from "@/components/home/TransformationSlider";
 import { ServicesExpandingMatrix } from "@/components/home/ServicesExpandingMatrix";
@@ -33,9 +32,6 @@ export default function Home() {
     <main className="relative min-h-screen transition-colors duration-700">
       {/* Floating Dynamic Island Capsule Navigation */}
       <DynamicIslandNav onOpenDrawer={() => handleOpenDrawer()} />
-
-      {/* Dennis Snellenberg Floating "Located in India" Globe Widget */}
-      <LocatedInIndiaBadge />
 
       {/* Section 01: Warm Editorial Hero Section with Masked Typography */}
       <HeroSection />
