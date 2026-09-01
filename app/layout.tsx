@@ -31,6 +31,11 @@ export const metadata: Metadata = {
     "India Studio",
   ],
   authors: [{ name: "IXORIEE Architecture Studio" }],
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
   openGraph: {
     title: "IXORIEE — Intelligence-Augmented Digital Studio",
     description:

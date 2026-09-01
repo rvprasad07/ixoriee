@@ -21,12 +21,17 @@ export const DynamicIslandNav: React.FC<DynamicIslandNavProps> = ({ onOpenDrawer
 
   return (
     <header className="fixed top-4 sm:top-6 inset-x-0 mx-auto w-[92%] sm:w-fit z-50">
-      <nav className="px-4 sm:px-6 py-2.5 rounded-full bg-white/85 dark:bg-[#141416]/85 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)] flex items-center justify-between sm:justify-start gap-4 md:gap-8 transition-colors duration-500 min-h-[44px]">
-        {/* Brand */}
+      <nav className="px-4 sm:px-6 py-2.5 rounded-full bg-white/85 dark:bg-[#141416]/85 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.5)] flex items-center justify-between sm:justify-start gap-3 sm:gap-4 md:gap-8 transition-colors duration-500 min-h-[44px]">
+        {/* Brand with Transparent Geometric Emblem */}
         <a
           href="#"
-          className="flex items-center gap-1.5 font-mono text-xs tracking-widest font-bold text-[#1C1D20] dark:text-white transition-colors"
+          className="flex items-center gap-2 font-mono text-xs tracking-widest font-bold text-[#1C1D20] dark:text-white transition-colors group"
         >
+          <img
+            src="/logo.png"
+            alt="Ixoriee Emblem"
+            className="w-5 h-5 object-contain group-hover:rotate-12 transition-transform duration-300 flex-shrink-0"
+          />
           <span>IXORIEE</span>
           <span className="hidden sm:inline text-[10px] text-neutral-400 dark:text-neutral-500 font-normal">
             [SYS_v1.0]
