@@ -3,7 +3,6 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { MagneticWrapper } from "../common/MagneticWrapper";
-import { LocatedInIndiaBadge } from "../common/LocatedInIndiaBadge";
 import { ArrowDown, ArrowRight, ShieldCheck, Zap, Cpu, Sparkles } from "lucide-react";
 
 export const HeroSection: React.FC = () => {
@@ -37,9 +36,6 @@ export const HeroSection: React.FC = () => {
       ref={containerRef}
       className="relative min-h-[105vh] sm:min-h-[115vh] flex flex-col justify-start items-center pt-32 sm:pt-40 pb-20 px-4 sm:px-6 max-w-7xl mx-auto select-none overflow-hidden"
     >
-      {/* Dennis Snellenberg Floating "Located in India" Globe Widget - Scoped to Hero Only */}
-      <LocatedInIndiaBadge />
-
       {/* Left Edge: Rezo Zero Style Vertical "Scroll" Indicator */}
       <div className="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 flex-col items-center gap-3 z-30 pointer-events-none text-neutral-400 font-mono text-[10px] uppercase tracking-widest">
         <span className="w-1.5 h-1.5 rounded-full bg-[#1C1D20]" />

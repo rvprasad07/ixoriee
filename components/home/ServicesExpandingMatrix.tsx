@@ -22,7 +22,7 @@ export const ServicesExpandingMatrix: React.FC<ServicesExpandingMatrixProps> = (
   };
 
   return (
-    <section id="services" className="py-28 px-4 sm:px-6 max-w-7xl mx-auto z-10 relative">
+    <section id="services" className="py-28 px-4 sm:px-6 max-w-7xl mx-auto z-10 relative overflow-hidden">
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 border-b border-black/10 pb-8 gap-6">
         <div>
@@ -43,14 +43,32 @@ export const ServicesExpandingMatrix: React.FC<ServicesExpandingMatrixProps> = (
         </p>
       </div>
 
-      {/* Swiss Vertical Accordion Rows */}
+      {/* Swiss Vertical Accordion Rows with Alternating Left-Right Pop-In Transitions */}
       <div className="divide-y divide-black/10 border-t border-b border-black/10 bg-white rounded-3xl overflow-hidden shadow-md">
-        {SERVICE_PILLARS.map((pillar) => {
+        {SERVICE_PILLARS.map((pillar, idx) => {
           const isExpanded = expandedId === pillar.id;
+          const isEven = idx % 2 === 0;
 
           return (
-            <div
+            <motion.div
               key={pillar.id}
+              initial={{
+                opacity: 0,
+                x: isEven ? 140 : -140,
+                scale: 0.96,
+              }}
+              whileInView={{
+                opacity: 1,
+                x: 0,
+                scale: 1,
+              }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{
+                type: "spring",
+                stiffness: 90,
+                damping: 22,
+                delay: idx * 0.12,
+              }}
               className={`transition-colors duration-300 ${
                 isExpanded ? "bg-[#FAF9F5]" : "hover:bg-[#FAF9F5]/60"
               }`}
@@ -150,7 +168,7 @@ export const ServicesExpandingMatrix: React.FC<ServicesExpandingMatrixProps> = (
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </motion.div>
           );
         })}
       </div>
