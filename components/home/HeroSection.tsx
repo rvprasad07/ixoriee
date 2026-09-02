@@ -4,6 +4,7 @@ import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { MagneticWrapper } from "../common/MagneticWrapper";
 import { ArrowDown, ArrowRight, ShieldCheck, Zap, Cpu, Sparkles } from "lucide-react";
+import { InteractiveGlobe } from "../canvas/InteractiveGlobe";
 
 export const HeroSection: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -12,10 +13,10 @@ export const HeroSection: React.FC = () => {
     offset: ["start start", "end start"],
   });
 
-  // Parallax translation: cards scroll UP as the user scrolls down, passing behind the main heading
-  const yLeft = useTransform(scrollYProgress, [0, 1], [0, -340]);
-  const yCenter = useTransform(scrollYProgress, [0, 1], [0, -240]);
-  const yRight = useTransform(scrollYProgress, [0, 1], [0, -380]);
+  // Card containers remain anchored at the sides.
+  // The image inside the cards scales/zooms smoothly on scroll.
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1.0, 1.35]);
+  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "-6%"]);
 
   const scrollToProof = () => {
     const el = document.getElementById("transformation-slider");
@@ -34,7 +35,7 @@ export const HeroSection: React.FC = () => {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[105vh] sm:min-h-[115vh] flex flex-col justify-start items-center pt-32 sm:pt-40 pb-20 px-4 sm:px-6 max-w-7xl mx-auto select-none overflow-hidden"
+      className="relative min-h-[105vh] sm:min-h-[115vh] flex flex-col justify-start items-center pt-32 sm:pt-40 pb-20 px-4 sm:px-6 w-full max-w-[1600px] mx-auto select-none overflow-hidden"
     >
       {/* Left Edge: Rezo Zero Style Vertical "Scroll" Indicator */}
       <div className="hidden lg:flex fixed left-6 top-1/2 -translate-y-1/2 flex-col items-center gap-3 z-30 pointer-events-none text-neutral-400 font-mono text-[10px] uppercase tracking-widest">
@@ -82,74 +83,69 @@ export const HeroSection: React.FC = () => {
       </div>
 
       {/* ======================================================== */}
-      {/* 3 PARALLAX IMAGE CARDS BEHIND THE MAIN HEADING           */}
+      {/* 2 SIDE IMAGE CARDS (ANCHORED AT LEFT & RIGHT SIDES)       */}
       {/* ======================================================== */}
-      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden max-w-7xl mx-auto">
-        {/* Card 01 (Left Image Card): Monochrome Architecture Curve */}
-        <motion.div
-          style={{ y: yLeft }}
-          className="absolute left-[2%] sm:left-[5%] bottom-[-12%] sm:bottom-[-6%] w-[240px] sm:w-[320px] md:w-[380px] h-[340px] sm:h-[450px] md:h-[500px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-black/10 bg-[#E5E5E0] z-0"
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden w-full max-w-[1600px] mx-auto">
+        {/* Card 01 (Left Side Card): Architecture Wireframe */}
+        <div
+          className="absolute -left-12 sm:left-2 md:left-4 lg:left-6 xl:left-8 top-32 sm:top-36 md:top-40 lg:top-36 w-[190px] sm:w-[250px] md:w-[290px] lg:w-[330px] xl:w-[370px] h-[280px] sm:h-[370px] md:h-[440px] lg:h-[500px] xl:h-[540px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-black/10 bg-[#E5E5E0] z-0 opacity-80 sm:opacity-95"
         >
-          <img
-            src="https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=1000&auto=format&fit=crop"
-            alt="Architectural Geometry"
-            className="w-full h-full object-cover grayscale contrast-125 opacity-90 hover:opacity-100 hover:scale-105 transition-all duration-700"
-            loading="eager"
-          />
-          <div className="absolute bottom-4 left-4 font-mono text-[9px] uppercase tracking-widest text-white/90 bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-full">
+          <div className="w-full h-full overflow-hidden relative">
+            <motion.img
+              style={{ scale: imageScale, y: imageY }}
+              src="/images/architecture.jpg"
+              alt="Architecture System Design"
+              className="w-full h-full object-cover grayscale contrast-125 opacity-90 hover:opacity-100 hover:grayscale-0 transition-[opacity,filter] duration-700 will-change-transform"
+              loading="eager"
+            />
+          </div>
+          <div className="absolute bottom-4 left-4 font-mono text-[9px] uppercase tracking-widest text-white/90 bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-full border border-white/10">
             01 / ARCHITECTURE
           </div>
-        </motion.div>
+        </div>
 
-        {/* Card 02 (Center Image Card): Geometric Structure & Optical Art */}
-        <motion.div
-          style={{ y: yCenter }}
-          className="absolute left-1/2 -translate-x-1/2 bottom-[-24%] sm:bottom-[-16%] w-[210px] sm:w-[270px] md:w-[320px] h-[300px] sm:h-[390px] md:h-[430px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border border-black/10 bg-[#FFFFFF] z-0"
+        {/* Card 02 (Right Side Card): Automated Infrastructure */}
+        <div
+          className="absolute -right-12 sm:right-2 md:right-4 lg:right-6 xl:right-8 top-32 sm:top-36 md:top-40 lg:top-36 w-[190px] sm:w-[250px] md:w-[290px] lg:w-[330px] xl:w-[370px] h-[280px] sm:h-[370px] md:h-[440px] lg:h-[500px] xl:h-[540px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-black/10 bg-[#141416] z-0 opacity-80 sm:opacity-95"
         >
-          <img
-            src="https://images.unsplash.com/photo-1541888946425-d0fbb186f5f8?q=80&w=1000&auto=format&fit=crop"
-            alt="Parametric Geometric Structure"
-            className="w-full h-full object-cover grayscale contrast-125 opacity-90 hover:opacity-100 hover:scale-105 transition-all duration-700"
-            loading="eager"
-          />
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 font-mono text-[9px] uppercase tracking-widest text-[#1C1D20] bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full border border-black/5">
-            02 / KINETIC SYSTEMS
+          <div className="w-full h-full overflow-hidden relative">
+            <motion.img
+              style={{ scale: imageScale, y: imageY }}
+              src="/images/automation.jpg"
+              alt="Automation Workflow Infrastructure"
+              className="w-full h-full object-cover grayscale contrast-125 opacity-90 hover:opacity-100 hover:grayscale-0 transition-[opacity,filter] duration-700 will-change-transform"
+              loading="eager"
+            />
           </div>
-        </motion.div>
+          <div className="absolute bottom-4 right-4 font-mono text-[9px] uppercase tracking-widest text-white/90 bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-full border border-white/10">
+            02 / AUTOMATION
+          </div>
+        </div>
+      </div>
 
-        {/* Card 03 (Right Image Card): High-Contrast Editorial Dynamic Motion */}
-        <motion.div
-          style={{ y: yRight }}
-          className="absolute right-[2%] sm:right-[5%] bottom-[-14%] sm:bottom-[-8%] w-[250px] sm:w-[330px] md:w-[390px] h-[350px] sm:h-[460px] md:h-[510px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-black/10 bg-[#141416] z-0"
-        >
-          <img
-            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1000&auto=format&fit=crop"
-            alt="Digital Architecture"
-            className="w-full h-full object-cover grayscale contrast-125 opacity-90 hover:opacity-100 hover:scale-105 transition-all duration-700"
-            loading="eager"
-          />
-          <div className="absolute bottom-4 right-4 font-mono text-[9px] uppercase tracking-widest text-white/90 bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-full">
-            03 / AUTOMATION
-          </div>
-        </motion.div>
+      {/* ======================================================== */}
+      {/* CENTER: REZO ZERO INTERACTIVE 3D GLOBE / SPHERE           */}
+      {/* ======================================================== */}
+      <div className="absolute top-28 sm:top-24 left-1/2 -translate-x-1/2 z-0 opacity-35 sm:opacity-45 pointer-events-none">
+        <InteractiveGlobe />
       </div>
 
       {/* ======================================================== */}
       {/* FOREGROUND: REZO ZERO SHORTENED 3-LINE TYPOGRAPHY LAYER   */}
       {/* ======================================================== */}
-      <div className="max-w-5xl text-left sm:text-center px-2 relative z-20 pointer-events-auto">
+      <div className="max-w-4xl lg:max-w-5xl text-left sm:text-center px-4 relative z-20 pointer-events-auto">
         <motion.h1
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: [0.33, 1, 0.68, 1] }}
-          className="font-sans text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.25rem] font-medium tracking-[-0.038em] text-[#1C1D20] leading-[1.04]"
+          className="font-sans text-4xl sm:text-6xl md:text-7xl lg:text-[5.25rem] xl:text-[6rem] font-medium tracking-[-0.038em] text-[#1C1D20] leading-[1.04]"
         >
           Ixoriee is a creative digital studio building impactful web systems &amp; automated infrastructure.
         </motion.h1>
       </div>
 
       {/* Sub-headline & Call-To-Actions Group */}
-      <div className="max-w-2xl mt-8 sm:mt-10 text-center relative z-20 pointer-events-auto">
+      <div className="max-w-2xl mt-8 sm:mt-10 text-center relative z-20 pointer-events-auto px-4">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -166,7 +162,7 @@ export const HeroSection: React.FC = () => {
           className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-5"
         >
           <MagneticWrapper onClick={scrollToProof}>
-            <button className="flex items-center gap-2 bg-[#1C1D20] text-white px-8 py-4 rounded-full font-semibold text-sm hover:bg-black transition-colors shadow-sm">
+            <button className="flex items-center gap-2 bg-[#1C1D20] text-white px-8 py-4 rounded-full font-semibold text-sm hover:bg-black transition-colors shadow-sm cursor-pointer">
               <span>Explore Systems &amp; Proof</span>
               <ArrowDown className="w-4 h-4" />
             </button>
@@ -174,7 +170,7 @@ export const HeroSection: React.FC = () => {
 
           <button
             onClick={scrollToServices}
-            className="group inline-flex items-center gap-2 font-mono text-xs text-neutral-600 hover:text-black transition-colors py-2 px-4 rounded-full hover:bg-black/5"
+            className="group inline-flex items-center gap-2 font-mono text-xs text-neutral-600 hover:text-black transition-colors py-2 px-4 rounded-full hover:bg-black/5 cursor-pointer"
           >
             <span>Discover The 4 Pillars</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -187,9 +183,9 @@ export const HeroSection: React.FC = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.55, ease: [0.33, 1, 0.68, 1] }}
-        className="mt-24 sm:mt-32 pt-8 border-t border-black/10 w-full max-w-4xl grid grid-cols-2 md:grid-cols-4 gap-4 text-left relative z-20 pointer-events-auto"
+        className="mt-20 sm:mt-28 pt-8 border-t border-black/10 w-full max-w-4xl grid grid-cols-2 md:grid-cols-4 gap-4 text-left relative z-20 pointer-events-auto"
       >
-        <div className="p-4 bg-white/80 rounded-2xl border border-black/5 shadow-sm">
+        <div className="p-4 bg-white/80 rounded-2xl border border-black/5 shadow-sm backdrop-blur-sm">
           <span className="font-mono text-[10px] text-neutral-500 uppercase tracking-widest block mb-1">
             01 / PARADIGM
           </span>
@@ -199,7 +195,7 @@ export const HeroSection: React.FC = () => {
           </span>
         </div>
 
-        <div className="p-4 bg-white/80 rounded-2xl border border-black/5 shadow-sm">
+        <div className="p-4 bg-white/80 rounded-2xl border border-black/5 shadow-sm backdrop-blur-sm">
           <span className="font-mono text-[10px] text-neutral-500 uppercase tracking-widest block mb-1">
             02 / MOTION PHYSICS
           </span>
@@ -209,7 +205,7 @@ export const HeroSection: React.FC = () => {
           </span>
         </div>
 
-        <div className="p-4 bg-white/80 rounded-2xl border border-black/5 shadow-sm">
+        <div className="p-4 bg-white/80 rounded-2xl border border-black/5 shadow-sm backdrop-blur-sm">
           <span className="font-mono text-[10px] text-neutral-500 uppercase tracking-widest block mb-1">
             03 / ARCHITECTURE
           </span>
@@ -219,7 +215,7 @@ export const HeroSection: React.FC = () => {
           </span>
         </div>
 
-        <div className="p-4 bg-white/80 rounded-2xl border border-black/5 shadow-sm">
+        <div className="p-4 bg-white/80 rounded-2xl border border-black/5 shadow-sm backdrop-blur-sm">
           <span className="font-mono text-[10px] text-neutral-500 uppercase tracking-widest block mb-1">
             04 / DISPATCH
           </span>
