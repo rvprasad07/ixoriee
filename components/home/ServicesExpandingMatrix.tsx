@@ -4,25 +4,20 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SERVICE_PILLARS } from "@/lib/data";
 import { TextMaskReveal } from "../common/TextMaskReveal";
-import { Plus, Minus, ArrowUpRight, CheckCircle2 } from "lucide-react";
-import { MagneticWrapper } from "../common/MagneticWrapper";
+import { Plus, Minus, ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
+import { useDrawer } from "@/context/DrawerContext";
 
-interface ServicesExpandingMatrixProps {
-  onSelectScope?: (scope: string) => void;
-}
-
-export const ServicesExpandingMatrix: React.FC<ServicesExpandingMatrixProps> = ({
-  onSelectScope,
-}) => {
+export const ServicesExpandingMatrix: React.FC = () => {
   // Default first row expanded
   const [expandedId, setExpandedId] = useState<string | null>("ui-ux");
+  const { openDrawer, currency } = useDrawer();
 
   const toggleRow = (id: string) => {
     setExpandedId(expandedId === id ? null : id);
   };
 
   return (
-    <section id="services" className="py-28 px-4 sm:px-6 max-w-7xl mx-auto z-10 relative overflow-hidden">
+    <section id="services" className="py-24 sm:py-32 px-4 sm:px-6 max-w-7xl mx-auto z-10 relative">
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 border-b border-black/10 pb-8 gap-6">
         <div>
@@ -39,12 +34,12 @@ export const ServicesExpandingMatrix: React.FC<ServicesExpandingMatrixProps> = (
           </TextMaskReveal>
         </div>
         <p className="font-sans text-neutral-600 text-sm md:text-base max-w-md leading-relaxed">
-          Explore our vertical service matrix. Click any pillar to inspect deep architectural specifications and delivered artifacts.
+          Explore our vertical service matrix. Click any pillar to inspect deep architectural specifications, tier benchmarks, and production stack surfaces.
         </p>
       </div>
 
-      {/* Swiss Vertical Accordion Rows with Alternating Left-Right Pop-In Transitions */}
-      <div className="divide-y divide-black/10 border-t border-b border-black/10 bg-white rounded-3xl overflow-hidden shadow-md">
+      {/* Swiss Vertical Accordion Rows */}
+      <div className="divide-y divide-black/10 border-t border-b border-black/10 bg-white rounded-3xl overflow-hidden shadow-lg">
         {SERVICE_PILLARS.map((pillar, idx) => {
           const isExpanded = expandedId === pillar.id;
           const isEven = idx % 2 === 0;
@@ -54,8 +49,8 @@ export const ServicesExpandingMatrix: React.FC<ServicesExpandingMatrixProps> = (
               key={pillar.id}
               initial={{
                 opacity: 0,
-                x: isEven ? 140 : -140,
-                scale: 0.96,
+                x: isEven ? 100 : -100,
+                scale: 0.98,
               }}
               whileInView={{
                 opacity: 1,
@@ -67,7 +62,7 @@ export const ServicesExpandingMatrix: React.FC<ServicesExpandingMatrixProps> = (
                 type: "spring",
                 stiffness: 90,
                 damping: 22,
-                delay: idx * 0.12,
+                delay: idx * 0.1,
               }}
               className={`transition-colors duration-300 ${
                 isExpanded ? "bg-[#FAF9F5]" : "hover:bg-[#FAF9F5]/60"
@@ -96,7 +91,7 @@ export const ServicesExpandingMatrix: React.FC<ServicesExpandingMatrixProps> = (
                   <p className="hidden xl:block font-sans text-sm text-neutral-600 max-w-sm text-right">
                     {pillar.summary}
                   </p>
-                  <div className="w-10 h-10 rounded-full border border-black/10 bg-white flex items-center justify-center text-[#1C1D20] shadow-sm">
+                  <div className="w-10 h-10 rounded-full border border-black/10 bg-white flex items-center justify-center text-[#1C1D20] shadow-sm flex-shrink-0">
                     {isExpanded ? (
                       <Minus className="w-4 h-4" />
                     ) : (
@@ -116,27 +111,30 @@ export const ServicesExpandingMatrix: React.FC<ServicesExpandingMatrixProps> = (
                     transition={{ duration: 0.45, ease: [0.33, 1, 0.68, 1] }}
                     className="overflow-hidden"
                   >
-                    <div className="px-6 sm:px-10 pb-10 pt-2 border-t border-black/5 grid grid-cols-1 lg:grid-cols-12 gap-8">
-                      {/* Left: Deep Specification Details */}
-                      <div className="lg:col-span-7 space-y-4">
-                        <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-neutral-500">
-                          Architecture &amp; Execution Scope
-                        </h4>
-                        <p className="font-sans text-base text-[#1C1D20] leading-relaxed">
-                          {pillar.expandedDetails}
-                        </p>
-                        <p className="font-sans text-sm text-neutral-600 leading-relaxed">
-                          {pillar.summary}
-                        </p>
-                      </div>
+                    <div className="px-6 sm:px-10 pb-12 pt-4 border-t border-black/5 space-y-10">
+                      {/* Top Row: Narrative & Stack */}
+                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        {/* Left: Deep Specification Details */}
+                        <div className="lg:col-span-7 space-y-3">
+                          <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-neutral-500 flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#1C1D20]" />
+                            Architecture &amp; Execution Scope
+                          </h4>
+                          <p className="font-sans text-base text-[#1C1D20] leading-relaxed">
+                            {pillar.expandedDetails}
+                          </p>
+                          <p className="font-sans text-sm text-neutral-600 leading-relaxed">
+                            {pillar.summary}
+                          </p>
+                        </div>
 
-                      {/* Right: Technical Stack Pills & Action */}
-                      <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
-                        <div>
-                          <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-neutral-500 mb-3">
+                        {/* Right: Technical Stack Surface */}
+                        <div className="lg:col-span-5 space-y-3">
+                          <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-neutral-500 flex items-center gap-2">
+                            <Sparkles className="w-3.5 h-3.5 text-[#10B981]" />
                             Production Stack Surface
                           </h4>
-                          <div className="flex flex-wrap gap-2">
+                          <div className="flex flex-wrap gap-2 pt-1">
                             {pillar.tags.map((tag, tagIdx) => (
                               <span
                                 key={tagIdx}
@@ -147,21 +145,85 @@ export const ServicesExpandingMatrix: React.FC<ServicesExpandingMatrixProps> = (
                             ))}
                           </div>
                         </div>
+                      </div>
 
-                        <div className="pt-4 flex items-center justify-between border-t border-black/5">
-                          <div className="flex items-center gap-1.5 text-xs font-mono text-[#10B981] font-semibold">
-                            <CheckCircle2 className="w-3.5 h-3.5" />
-                            <span>Zero-Downtime Guarantee</span>
-                          </div>
+                      {/* 3-Column Swiss Sub-Grid (Convention B Tiers) */}
+                      <div className="pt-6 border-t border-black/10">
+                        <div className="flex items-center justify-between mb-6">
+                          <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-neutral-500">
+                            Available Engagement Tiers
+                          </h4>
+                          <span className="font-mono text-[11px] text-neutral-500">
+                            Currency: <strong className="text-[#1C1D20]">{currency}</strong>
+                          </span>
+                        </div>
 
-                          {onSelectScope && (
-                            <MagneticWrapper onClick={() => onSelectScope(pillar.title)}>
-                              <button className="flex items-center gap-1.5 bg-[#1C1D20] text-white text-xs font-semibold px-5 py-2.5 rounded-full hover:bg-black transition-colors shadow-sm">
-                                <span>Request Pillar Brief</span>
-                                <ArrowUpRight className="w-3.5 h-3.5" />
-                              </button>
-                            </MagneticWrapper>
-                          )}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                          {pillar.tiers.map((tier, tierIdx) => (
+                            <div
+                              key={tier.id}
+                              className="bg-white rounded-2xl p-6 border border-black/10 shadow-sm flex flex-col justify-between hover:border-black/30 hover:shadow-md transition-all group"
+                            >
+                              <div className="space-y-4">
+                                <div className="flex items-center justify-between">
+                                  <span className="font-mono text-xs font-bold text-neutral-400">
+                                    0{tierIdx + 1}.
+                                  </span>
+                                  {tier.badge && (
+                                    <span className="font-mono text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-[#F4F4F0] text-[#1C1D20] border border-black/5">
+                                      {tier.badge}
+                                    </span>
+                                  )}
+                                </div>
+
+                                <div>
+                                  <h5 className="font-sans text-lg font-bold text-[#1C1D20]">
+                                    {tier.name}
+                                  </h5>
+                                  <p className="font-sans text-xs text-neutral-600 mt-1 leading-relaxed">
+                                    {tier.description}
+                                  </p>
+                                </div>
+
+                                <div className="pt-2">
+                                  <span className="font-mono text-lg font-bold text-[#1C1D20] block">
+                                    {currency === "INR" ? tier.priceINR : tier.priceUSD}
+                                  </span>
+                                </div>
+
+                                <ul className="space-y-2 pt-2 border-t border-black/5">
+                                  {tier.features.map((feat, fIdx) => (
+                                    <li
+                                      key={fIdx}
+                                      className="flex items-start gap-2 text-xs font-sans text-neutral-700"
+                                    >
+                                      <CheckCircle2 className="w-3.5 h-3.5 text-[#10B981] flex-shrink-0 mt-0.5" />
+                                      <span>{feat}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+
+                              <div className="pt-6 mt-6 border-t border-black/5">
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    openDrawer({
+                                      pillarId: pillar.id,
+                                      pillarTitle: pillar.title,
+                                      tierId: tier.id,
+                                      tierName: tier.name,
+                                      currency,
+                                    });
+                                  }}
+                                  className="w-full flex items-center justify-center gap-2 bg-[#F4F4F0] group-hover:bg-[#1C1D20] text-[#1C1D20] group-hover:text-white text-xs font-semibold py-3 px-4 rounded-xl transition-all shadow-sm"
+                                >
+                                  <span>Select This Tier</span>
+                                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                                </button>
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>

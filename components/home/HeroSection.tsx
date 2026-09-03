@@ -3,6 +3,7 @@
 import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import { MagneticWrapper } from "../common/MagneticWrapper";
+import { TextMaskReveal } from "../common/TextMaskReveal";
 import { ArrowDown, ArrowRight, ShieldCheck, Zap, Cpu, Sparkles } from "lucide-react";
 import { InteractiveGlobe } from "../canvas/InteractiveGlobe";
 
@@ -26,7 +27,7 @@ export const HeroSection: React.FC = () => {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[100vh] sm:min-h-[110vh] flex flex-col justify-start items-center pt-32 sm:pt-40 pb-20 px-4 sm:px-6 max-w-7xl mx-auto select-none overflow-hidden"
+      className="relative min-h-[100vh] sm:min-h-[110vh] flex flex-col justify-start items-center pt-36 sm:pt-44 pb-20 px-4 sm:px-6 max-w-7xl mx-auto select-none overflow-hidden"
     >
       {/* ======================================================== */}
       {/* MINIMALIST FLOATING SIDE INDICATORS (REZO ZERO STYLE)    */}
@@ -79,34 +80,37 @@ export const HeroSection: React.FC = () => {
       {/* ======================================================== */}
       {/* BACKGROUND: INTERACTIVE 3D GLOBE / GEOMETRIC SPHERE      */}
       {/* ======================================================== */}
-      <div className="absolute top-[22%] sm:top-[20%] left-1/2 -translate-x-1/2 z-0 opacity-45 sm:opacity-55 pointer-events-none">
+      <div className="absolute top-[20%] sm:top-[18%] left-1/2 -translate-x-1/2 z-0 opacity-40 sm:opacity-50 pointer-events-none">
         <InteractiveGlobe />
       </div>
 
       {/* ======================================================== */}
-      {/* FOREGROUND: REZO ZERO TYPOGRAPHY & HERO CONTENT           */}
+      {/* FOREGROUND: SWISS EDITORIAL TYPOGRAPHY & OVERLINE PILL    */}
       {/* ======================================================== */}
-      <div className="max-w-5xl text-left sm:text-center px-2 relative z-20 pointer-events-auto">
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.33, 1, 0.68, 1] }}
-          className="font-sans text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.25rem] font-medium tracking-[-0.038em] text-[#1C1D20] leading-[1.04]"
-        >
-          Ixoriee is a creative digital studio building impactful web systems &amp; automated infrastructure.
-        </motion.h1>
+      <div className="max-w-5xl text-center px-2 relative z-20 pointer-events-auto flex flex-col items-center">
+        {/* Overline Badge */}
+        <TextMaskReveal>
+          <div className="inline-flex items-center gap-2 font-mono text-xs text-neutral-600 bg-neutral-200/60 px-4 py-1.5 rounded-full mb-8 border border-black/5 shadow-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse" />
+            <span>[ INTELLIGENCE-AUGMENTED DIGITAL STUDIO • AI + HI ]</span>
+          </div>
+        </TextMaskReveal>
+
+        {/* Main Headline */}
+        <TextMaskReveal delay={0.1}>
+          <h1 className="font-sans text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.25rem] font-medium tracking-tight text-[#1C1D20] leading-[1.04]">
+            Ixoriee is a creative digital studio building impactful web systems &amp; automated infrastructure.
+          </h1>
+        </TextMaskReveal>
       </div>
 
       {/* Sub-headline & Call-To-Actions Group */}
       <div className="max-w-2xl mt-8 sm:mt-10 text-center relative z-20 pointer-events-auto px-2">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.33, 1, 0.68, 1] }}
-          className="font-sans text-base sm:text-lg md:text-xl text-neutral-600 leading-relaxed"
-        >
-          We eliminate manual operational friction for ambitious startups and expanding brands through deep research, bespoke engineering, and autonomous workflow automation.
-        </motion.p>
+        <TextMaskReveal delay={0.2}>
+          <p className="font-sans text-base sm:text-lg md:text-xl text-neutral-600 leading-relaxed">
+            We eliminate manual operational friction for ambitious startups and expanding brands through deep research, bespoke engineering, and autonomous workflow automation.
+          </p>
+        </TextMaskReveal>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -1,3 +1,15 @@
+export type Currency = "INR" | "USD";
+
+export interface PlanTier {
+  id: string;
+  name: string;
+  badge?: string;
+  description: string;
+  priceINR: string;
+  priceUSD: string;
+  features: string[];
+}
+
 export interface ServicePillar {
   id: string;
   index: string;
@@ -7,6 +19,7 @@ export interface ServicePillar {
   description?: string;
   expandedDetails: string;
   tags: string[];
+  tiers: PlanTier[];
 }
 
 export interface ProjectRecord {
@@ -15,10 +28,10 @@ export interface ProjectRecord {
   discipline: string;
   year: string;
   metrics: string;
-  externalUrl?: string;
   tagline?: string;
   clientOverview?: string;
   stack?: string[];
+  externalUrl?: string;
   galleryImages: string[];
 }
 
@@ -32,9 +45,13 @@ export interface MethodologyStep {
 
 export interface InquiryFormData {
   selectedScopes?: string[];
+  selectedPillar?: string;
+  selectedTier?: string;
+  currency?: Currency;
   budgetTier?: string;
   budget?: string;
   timeline?: string;
+  rushSurcharge?: number;
   name: string;
   email: string;
   company?: string;
