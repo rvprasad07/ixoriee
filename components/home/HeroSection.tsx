@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { MagneticWrapper } from "../common/MagneticWrapper";
 import { TextMaskReveal } from "../common/TextMaskReveal";
 import { ArrowDown, ArrowRight, ShieldCheck, Zap, Cpu, Sparkles } from "lucide-react";
-import { InteractiveGlobe } from "../canvas/InteractiveGlobe";
 
 export const HeroSection: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -27,7 +26,7 @@ export const HeroSection: React.FC = () => {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[100vh] sm:min-h-[110vh] flex flex-col justify-start items-center pt-36 sm:pt-44 pb-20 px-4 sm:px-6 max-w-7xl mx-auto select-none overflow-hidden"
+      className="relative min-h-[90vh] sm:min-h-[95vh] flex flex-col justify-start items-center pt-36 sm:pt-44 pb-16 sm:pb-20 px-4 sm:px-6 max-w-7xl mx-auto select-none overflow-hidden"
     >
       {/* ======================================================== */}
       {/* MINIMALIST FLOATING SIDE INDICATORS (REZO ZERO STYLE)    */}
@@ -75,13 +74,6 @@ export const HeroSection: React.FC = () => {
         >
           Git
         </a>
-      </div>
-
-      {/* ======================================================== */}
-      {/* BACKGROUND: INTERACTIVE 3D GLOBE / GEOMETRIC SPHERE      */}
-      {/* ======================================================== */}
-      <div className="absolute top-[20%] sm:top-[18%] left-1/2 -translate-x-1/2 z-0 opacity-40 sm:opacity-50 pointer-events-none">
-        <InteractiveGlobe />
       </div>
 
       {/* ======================================================== */}
@@ -140,7 +132,7 @@ export const HeroSection: React.FC = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.55, ease: [0.33, 1, 0.68, 1] }}
-        className="mt-20 sm:mt-28 pt-8 border-t border-black/10 w-full max-w-4xl grid grid-cols-2 md:grid-cols-4 gap-4 text-left relative z-20 pointer-events-auto"
+        className="mt-16 sm:mt-24 pt-8 border-t border-black/10 w-full max-w-4xl grid grid-cols-2 md:grid-cols-4 gap-4 text-left relative z-20 pointer-events-auto"
       >
         <div className="p-4 bg-white/80 rounded-2xl border border-black/5 shadow-sm">
           <span className="font-mono text-[10px] text-neutral-500 uppercase tracking-widest block mb-1">

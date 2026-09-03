@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, CheckCircle, ArrowRight, Loader2, Sparkles, Zap, ShieldCheck } from "lucide-react";
+import { X, CheckCircle, ArrowRight, Loader2, Zap, ShieldCheck } from "lucide-react";
 import { MagneticWrapper } from "../common/MagneticWrapper";
 import { useDrawer } from "@/context/DrawerContext";
 import { SERVICE_PILLARS } from "@/lib/data";
@@ -31,6 +31,7 @@ export const InquiryDrawer: React.FC = () => {
     selectedTierId,
   } = useDrawer();
 
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const deliveryRef = useRef<HTMLDivElement>(null);
 
   const [selectedScopes, setSelectedScopes] = useState<string[]>([]);
@@ -149,7 +150,7 @@ export const InquiryDrawer: React.FC = () => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[120] flex justify-end">
+        <div className="fixed inset-0 z-[120] flex justify-end overflow-hidden">
           {/* Backdrop overlay */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -159,7 +160,7 @@ export const InquiryDrawer: React.FC = () => {
             className="fixed inset-0 bg-[#1C1D20]/60 backdrop-blur-sm"
           />
 
-          {/* Snellenberg Elastic Slide-Over Drawer */}
+          {/* Snellenberg Elastic Slide-Over Drawer Container with data-lenis-prevent to guarantee native scroll */}
           <motion.div
             initial={{ x: "100%" }}
             animate={{ x: "0%" }}
@@ -170,10 +171,15 @@ export const InquiryDrawer: React.FC = () => {
               stiffness: 280,
               mass: 0.8,
             }}
-            className="relative w-full max-w-2xl h-full bg-[#FFFFFF] text-[#1C1D20] shadow-[0_0_90px_rgba(0,0,0,0.3)] flex flex-col justify-between z-10 overflow-y-auto"
+            data-lenis-prevent="true"
+            data-lenis-prevent-wheel="true"
+            data-lenis-prevent-touch="true"
+            onWheel={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
+            className="relative w-full max-w-2xl h-screen max-h-screen bg-[#FFFFFF] text-[#1C1D20] shadow-[0_0_90px_rgba(0,0,0,0.3)] flex flex-col z-10 overflow-hidden"
           >
-            {/* Top Header Bar */}
-            <div className="sticky top-0 bg-white/95 backdrop-blur-md z-20 px-6 sm:px-8 py-5 border-b border-[#1C1D20]/10 flex items-center justify-between">
+            {/* Top Header Bar (Fixed / Sticky) */}
+            <div className="flex-shrink-0 bg-white/95 backdrop-blur-md z-20 px-6 sm:px-8 py-5 border-b border-[#1C1D20]/10 flex items-center justify-between">
               <div>
                 <span className="font-mono text-[10px] uppercase tracking-widest text-[#10B981] font-bold flex items-center gap-1.5 mb-0.5">
                   <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
@@ -221,8 +227,12 @@ export const InquiryDrawer: React.FC = () => {
               </div>
             </div>
 
-            {/* Form Body */}
-            <div className="p-6 sm:p-8 space-y-8 flex-1">
+            {/* Scrollable Form Body with explicit overflow and touch scrolling */}
+            <div
+              ref={scrollContainerRef}
+              data-lenis-prevent="true"
+              className="flex-1 overflow-y-auto overscroll-contain p-6 sm:p-8 space-y-8 touch-auto"
+            >
               {status === "success" ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
@@ -245,7 +255,7 @@ export const InquiryDrawer: React.FC = () => {
                   </MagneticWrapper>
                 </motion.div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-8">
+                <form onSubmit={handleSubmit} className="space-y-8 pb-10">
                   {/* Tier 01 — Target Scope (Multi-Select Chips) */}
                   <div>
                     <label className="block font-mono text-xs font-bold uppercase tracking-wider text-neutral-500 mb-3">
@@ -259,7 +269,7 @@ export const InquiryDrawer: React.FC = () => {
                             type="button"
                             key={pillar.id}
                             onClick={() => toggleScope(pillar.title)}
-                            className={`font-sans text-xs px-4 py-2.5 rounded-full border transition-all ${
+                            className={`font-sans text-xs px-4 py-2.5 rounded-full border transition-all cursor-pointer ${
                               isSelected
                                 ? "bg-[#1C1D20] text-white border-[#1C1D20] shadow-sm"
                                 : "bg-[#F4F4F0] text-[#1C1D20] border-transparent hover:border-black/20"
@@ -289,7 +299,7 @@ export const InquiryDrawer: React.FC = () => {
                             type="button"
                             key={tier.id}
                             onClick={() => setActiveTier(tier.id)}
-                            className={`p-4 rounded-2xl border text-left transition-all relative ${
+                            className={`p-4 rounded-2xl border text-left transition-all relative cursor-pointer ${
                               isSelected
                                 ? "bg-[#1C1D20] text-white border-[#1C1D20] shadow-md ring-2 ring-black/20"
                                 : "bg-[#F4F4F0] text-[#1C1D20] border-black/5 hover:border-black/20"
@@ -323,7 +333,7 @@ export const InquiryDrawer: React.FC = () => {
                               type="button"
                               key={tl.id}
                               onClick={() => setSelectedTimelineId(tl.id)}
-                              className={`w-full p-3.5 rounded-xl border text-left flex items-center justify-between transition-all ${
+                              className={`w-full p-3.5 rounded-xl border text-left flex items-center justify-between transition-all cursor-pointer ${
                                 isSelected
                                   ? "bg-[#1C1D20] text-white border-[#1C1D20] shadow-sm"
                                   : "bg-[#F4F4F0] text-[#1C1D20] border-black/5 hover:border-black/20"
